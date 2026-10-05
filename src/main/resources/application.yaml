@@ -1,0 +1,28 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: location-sync-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: location-sync
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+          spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+          spring.json.value.default.type: com.goon.locationsync.model.LocationEvent
+          spring.json.use.type.headers: false
+          spring.json.trusted.packages: com.goon.locationsync.model
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+app:
+  kafka:
+    topics:
+      location-updates: location-updates
+      driver-locations: driver-locations
