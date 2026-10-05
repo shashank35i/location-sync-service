@@ -15,12 +15,12 @@ public class SyncService {
 
         @KafkaListener(topics = "#{appConfig.locationUpdates()}")
         public void locationUpdatesConsumer(LocationEvent locationEvent){
-
+                consumeLocationUpdates.consume(locationEvent);
         }
 
          @KafkaListener(topics = "#{appConfig.driverLocations()}")
          public void driverAvailabilityConsumer(LocationEvent locationEvent){
-
+            consumeDriverUpdates.updateAvailableDriver(locationEvent);
         }
 
 
