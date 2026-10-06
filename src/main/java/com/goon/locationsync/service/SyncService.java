@@ -13,12 +13,12 @@ public class SyncService {
         private final ConsumeDriverUpdates consumeDriverUpdates;
 
 
-        @KafkaListener(topics = "#{appConfig.locationUpdates()}")
+        @KafkaListener(topics = "${app.kafka.topics.location-updates}")
         public void locationUpdatesConsumer(LocationEvent locationEvent){
                 consumeLocationUpdates.consume(locationEvent);
         }
 
-         @KafkaListener(topics = "#{appConfig.driverLocations()}")
+         @KafkaListener(topics = "${app.kafka.topics.driver-locations}")
          public void driverAvailabilityConsumer(LocationEvent locationEvent){
             consumeDriverUpdates.updateAvailableDriver(locationEvent);
         }

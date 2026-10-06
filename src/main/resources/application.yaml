@@ -12,9 +12,9 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
           spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
-          spring.json.value.default.type: com.goon.locationsync.model.LocationEvent
           spring.json.use.type.headers: false
-          spring.json.trusted.packages: com.goon.locationsync.model
+          spring.json.value.default.type: com.goon.locationsync.service.request.LocationEvent
+          spring.json.trusted.packages: com.goon.locationsync.service.request
 
   data:
     redis:

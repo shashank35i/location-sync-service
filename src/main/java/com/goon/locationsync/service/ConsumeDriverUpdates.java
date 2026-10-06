@@ -28,7 +28,9 @@ public class ConsumeDriverUpdates {
 
     @Scheduled(fixedDelayString = "${app.driver.prune-interval-ms:60000}")
     public void pruneStaleDrivers() {
-        double cutoff = System.currentTimeMillis() - staleSeconds * 1000L;
+        double cutoff = (System.currentTimeMillis() * 1000L) - staleSeconds;
+        System.out.println("scanned but nothing found");
+
         Set<String> stale = redis.opsForZSet().rangeByScore(LAST_SEEN, 0, cutoff);
         if (stale == null || stale.isEmpty()) return;
         String[] ids = stale.toArray(new String[0]);
