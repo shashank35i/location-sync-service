@@ -29,12 +29,20 @@ public class ConsumeDriverUpdates {
     @Scheduled(fixedDelayString = "${app.driver.prune-interval-ms:60000}")
     public void pruneStaleDrivers() {
         double cutoff = (System.currentTimeMillis() * 1000L) - staleSeconds;
-        System.out.println("scanned but nothing found");
+
 
         Set<String> stale = redis.opsForZSet().rangeByScore(LAST_SEEN, 0, cutoff);
-        if (stale == null || stale.isEmpty()) return;
+        if (stale == null || stale.isEmpty()) {
+            System.out.println("scanned but nothing found");
+            return;
+        }
         String[] ids = stale.toArray(new String[0]);
         redis.opsForGeo().remove(AVAILABLE, ids);
         redis.opsForZSet().remove(LAST_SEEN, (Object[]) ids);
+        StringBuilder sb = new StringBuilder();
+        for(String s : ids){
+            sb.append(s).append(" ");
+        }
+        System.out.println("removed"+ sb);
     }
 }
